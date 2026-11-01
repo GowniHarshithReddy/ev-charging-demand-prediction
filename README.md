@@ -9,11 +9,16 @@ everything in a Streamlit dashboard.
 Publicly available EV charging transactions (about 72,000 sessions,
 Sept 2021 to Sept 2022). Place `ChargingRecords.csv` in the `data/` folder.
 
+Dataset source: https://drive.google.com/file/d/1PMxUeYp1djE5gxiaPpB2ae3meSQGbhwF/view?usp=sharing
+
 ## Project structure
 - `data/`: raw, cleaned and feature-engineered CSV files
-- `notebooks/`: data understanding, EDA, feature engineering and modelling
+- `notebooks/01_data_understanding.ipynb`: loading and cleaning
+- `notebooks/02_eda.ipynb`: exploratory data analysis
+- `notebooks/03_modelling.ipynb`: features, regression, classification, imbalance, SHAP, LIME
 - `models/`: saved models (`.pkl`)
 - `app/dashboard.py`: Streamlit dashboard
+- `docs/`: project documentation (Word)
 - `requirements.txt`: dependencies
 
 ## Setup
@@ -35,7 +40,7 @@ From the project root folder:
   split (first 80% train, last 20% test).
 - **Guest handling:** UserID 0 (43% of sessions) is a catch-all guest ID, so
   history features are set to missing for it and an `IsGuest` flag is used.
-- **Regression:** best RMSE about 11.4, R2 about 0.33 (LightGBM, XGBoost).
+- **Regression:** best RMSE about 11.4, R2 about 0.33 (XGBoost, LightGBM).
 - **Classification:** High Demand = demand at or above the training median
   (14.36). Best ROC-AUC about 0.79. Classes are balanced; resampling
   (Random Oversampling, SMOTE, ADASYN) was demonstrated on an artificially
@@ -43,6 +48,11 @@ From the project root folder:
 - **Explainability:** feature importance, SHAP and LIME.
 - **Forecasting:** simple daily baselines (4-week same-weekday average and
   previous-day).
+
+## Results
+- Regression: best R2 about 0.33, MAE about 8.4 (XGBoost, LightGBM)
+- Classification: best ROC-AUC about 0.79, accuracy about 71%
+- Key drivers: user's past average demand, hour of day, charger type, location
 
 ## Limitations
 - Models use only information available before a session starts, so R2 is modest.
